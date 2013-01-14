@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -15,7 +15,10 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "ScriptPCH.h"
+#include "ScriptMgr.h"
+#include "ScriptedCreature.h"
+#include "SpellScript.h"
+#include "SpellAuraEffects.h"
 #include "utgarde_pinnacle.h"
 
 enum Spells
@@ -98,8 +101,8 @@ enum SvalaPhase
 
 static const float spectatorWP[2][3] =
 {
-    {296.95f,-312.76f,86.36f},
-    {297.69f,-275.81f,86.36f}
+    {296.95f, -312.76f, 86.36f},
+    {297.69f, -275.81f, 86.36f}
 };
 
 static Position ArthasPos = { 295.81f, -366.16f, 92.57f, 1.58f };
@@ -514,7 +517,7 @@ public:
             if (motionType == POINT_MOTION_TYPE)
             {
                 if (pointId == 1)
-                    me->GetMotionMaster()->MovePoint(2,spectatorWP[1][0],spectatorWP[1][1],spectatorWP[1][2]);
+                    me->GetMotionMaster()->MovePoint(2, spectatorWP[1][0], spectatorWP[1][1], spectatorWP[1][2]);
                 else if (pointId == 2)
                     me->DespawnOrUnsummon(1000);
             }
@@ -585,7 +588,7 @@ class npc_scourge_hulk : public CreatureScript
                 killedByRitualStrike = false;
             }
 
-            uint32 GetData(uint32 type)
+            uint32 GetData(uint32 type) const
             {
                 return type == DATA_INCREDIBLE_HULK ? killedByRitualStrike : 0;
             }

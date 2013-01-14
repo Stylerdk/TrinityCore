@@ -86,7 +86,7 @@ public:
 
         static Cell ComputeCell(float fx, float fy)
         {
-            Cell c = {fx * (1.f/CELL_SIZE) + (CELL_NUMBER/2), fy * (1.f/CELL_SIZE) + (CELL_NUMBER/2)};
+            Cell c = { int(fx * (1.f/CELL_SIZE) + (CELL_NUMBER/2)), int(fy * (1.f/CELL_SIZE) + (CELL_NUMBER/2)) };
             return c;
         }
 
@@ -104,7 +104,7 @@ public:
     {
         ASSERT(x < CELL_NUMBER && y < CELL_NUMBER);
         if (!nodes[x][y])
-            nodes[x][y] = NodeCreatorFunc::makeNode(x,y);
+            nodes[x][y] = NodeCreatorFunc::makeNode(x, y);
         return *nodes[x][y];
     }
 

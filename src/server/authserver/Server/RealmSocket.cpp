@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2010 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -59,7 +59,7 @@ int RealmSocket::open(void * arg)
 
     if (peer().get_remote_addr(addr) == -1)
     {
-        sLog->outError("Error %s while opening realm socket!", ACE_OS::strerror(errno));
+        sLog->outError(LOG_FILTER_AUTHSERVER, "Error %s while opening realm socket!", ACE_OS::strerror(errno));
         return -1;
     }
 
@@ -79,7 +79,7 @@ int RealmSocket::open(void * arg)
     return 0;
 }
 
-int RealmSocket::close(int)
+int RealmSocket::close(u_long)
 {
     shutdown();
 

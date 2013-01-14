@@ -1,4 +1,4 @@
-# Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
+# Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
 #
 # This file is free software; as a special exception the author gives
 # unlimited permission to copy and/or distribute it, with or without
@@ -13,9 +13,12 @@ set(scripts_STAT_SRCS
   Commands/cs_account.cpp
   Commands/cs_achievement.cpp
   Commands/cs_ban.cpp
+  Commands/cs_bf.cpp
   Commands/cs_cast.cpp
   Commands/cs_character.cpp
+  Commands/cs_cheat.cpp
   Commands/cs_debug.cpp
+  Commands/cs_disable.cpp
   Commands/cs_event.cpp
   Commands/cs_gm.cpp
   Commands/cs_go.cpp
@@ -24,8 +27,10 @@ set(scripts_STAT_SRCS
   Commands/cs_honor.cpp
   Commands/cs_instance.cpp
   Commands/cs_learn.cpp
+  Commands/cs_lfg.cpp
   Commands/cs_list.cpp
   Commands/cs_lookup.cpp
+  Commands/cs_message.cpp
   Commands/cs_misc.cpp
   Commands/cs_modify.cpp
   Commands/cs_npc.cpp

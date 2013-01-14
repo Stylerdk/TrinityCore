@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2011 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -42,7 +42,7 @@ WardenWin::~WardenWin()
 {
 }
 
-void WardenWin::Init(WorldSession* session, BigNumber *k)
+void WardenWin::Init(WorldSession* session, BigNumber* k)
 {
     _session = session;
     // Generate Warden Key
@@ -156,9 +156,7 @@ void WardenWin::HandleHashResult(ByteBuffer &buff)
     // Verify key
     if (memcmp(buff.contents() + 1, Module.ClientKeySeedHash, 20) != 0)
     {
-        sLog->outDebug(LOG_FILTER_WARDEN, "Request hash reply: failed");
-        sLog->outWarden("WARDEN: Player %s (guid: %u, account: %u) failed hash reply. Action: %s",
-            _session->GetPlayerName(), _session->GetGuidLow(), _session->GetAccountId(), Penalty().c_str());
+        sLog->outWarn(LOG_FILTER_WARDEN, "%s failed hash reply. Action: %s", _session->GetPlayerInfo().c_str(), Penalty().c_str());
         return;
     }
 
@@ -343,9 +341,7 @@ void WardenWin::HandleData(ByteBuffer &buff)
     if (!IsValidCheckSum(Checksum, buff.contents() + buff.rpos(), Length))
     {
         buff.rpos(buff.wpos());
-        sLog->outDebug(LOG_FILTER_WARDEN, "CHECKSUM FAIL");
-        sLog->outWarden("WARDEN: Player %s (guid: %u, account: %u) failed checksum. Action: %s",
-            _session->GetPlayerName(), _session->GetGuidLow(), _session->GetAccountId(), Penalty().c_str());
+        sLog->outWarn(LOG_FILTER_WARDEN, "%s failed checksum. Action: %s", _session->GetPlayerInfo().c_str(), Penalty().c_str());
         return;
     }
 
@@ -356,9 +352,7 @@ void WardenWin::HandleData(ByteBuffer &buff)
         // TODO: test it.
         if (result == 0x00)
         {
-            sLog->outDebug(LOG_FILTER_WARDEN, "TIMING CHECK FAIL result 0x00");
-            sLog->outWarden("WARDEN: Player %s (guid: %u, account: %u) failed timing check. Action: %s",
-                _session->GetPlayerName(), _session->GetGuidLow(), _session->GetAccountId(), Penalty().c_str());
+            sLog->outWarn(LOG_FILTER_WARDEN, "%s failed timing check. Action: %s", _session->GetPlayerInfo().c_str(), Penalty().c_str());
             return;
         }
 
@@ -374,7 +368,7 @@ void WardenWin::HandleData(ByteBuffer &buff)
         sLog->outDebug(LOG_FILTER_WARDEN, "Ticks diff %u", ourTicks - newClientTicks);
     }
 
-    WardenCheckResult *rs;
+    WardenCheckResult* rs;
     WardenCheck *rd;
     uint8 type;
     uint16 checkFailed = 0;
@@ -459,8 +453,8 @@ void WardenWin::HandleData(ByteBuffer &buff)
                 if (luaStrLen != 0)
                 {
                     char *str = new char[luaStrLen + 1];
-                    memset(str, 0, luaStrLen + 1);
                     memcpy(str, buff.contents() + buff.rpos(), luaStrLen);
+                    str[luaStrLen] = '\0'; // null terminator
                     sLog->outDebug(LOG_FILTER_WARDEN, "Lua string: %s", str);
                     delete[] str;
                 }
@@ -500,9 +494,7 @@ void WardenWin::HandleData(ByteBuffer &buff)
     if (checkFailed > 0)
     {
         WardenCheck* check = sWardenCheckMgr->GetWardenDataById(checkFailed);
-
-        sLog->outWarden("WARDEN: Player %s (guid: %u, account: %u) failed Warden check %u. Action: %s",
-            _session->GetPlayerName(), _session->GetGuidLow(), _session->GetAccountId(), checkFailed, Penalty(check).c_str());
+        sLog->outWarn(LOG_FILTER_WARDEN, "%s failed Warden check %u. Action: %s", _session->GetPlayerInfo().c_str(), checkFailed, Penalty(check).c_str());
     }
 
     // Set hold off timer, minimum timer should at least be 1 second
