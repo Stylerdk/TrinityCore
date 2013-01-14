@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2006-2009 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -30,7 +30,7 @@ EndScriptData */
 
 enum Texts
 {
-    EMOTE_LOWHP             = -1409002,
+    EMOTE_LOWHP             = 0,
 };
 
 enum Spells
@@ -77,7 +77,7 @@ class boss_golemagg : public CreatureScript
 
             void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/)
             {
-                if (HealthBelowPct(10) || me->HasAura(SPELL_ENRAGE))
+                if (!HealthBelowPct(10) || me->HasAura(SPELL_ENRAGE))
                     return;
 
                 DoCast(me, SPELL_ENRAGE, true);
@@ -149,7 +149,7 @@ class mob_core_rager : public CreatureScript
                     if (pGolemagg->isAlive())
                     {
                         me->AddAura(SPELL_GOLEMAGG_TRUST, me);
-                        DoScriptText(EMOTE_LOWHP, me);
+                        Talk(EMOTE_LOWHP);
                         me->SetFullHealth();
                     }
                 }

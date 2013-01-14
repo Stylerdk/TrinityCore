@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -79,9 +79,13 @@ class NGrid
     public:
         typedef Grid<ACTIVE_OBJECT, WORLD_OBJECT_TYPES, GRID_OBJECT_TYPES> GridType;
         NGrid(uint32 id, int32 x, int32 y, time_t expiry, bool unload = true)
-            : i_gridId(id), i_x(x), i_y(y), i_cellstate(GRID_STATE_INVALID), i_GridObjectDataLoaded(false)
+            : i_gridId(id)
+            , i_GridInfo(GridInfo(expiry, unload))
+            , i_x(x)
+            , i_y(y)
+            , i_cellstate(GRID_STATE_INVALID)
+            , i_GridObjectDataLoaded(false)
         {
-            i_GridInfo = GridInfo(expiry, unload);
         }
 
         GridType& GetGridType(const uint32 x, const uint32 y)

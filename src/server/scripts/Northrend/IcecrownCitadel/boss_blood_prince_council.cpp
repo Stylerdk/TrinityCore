@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -20,6 +20,7 @@
 #include "ScriptedCreature.h"
 #include "SpellAuraEffects.h"
 #include "icecrown_citadel.h"
+#include "Player.h"
 
 enum Texts
 {
@@ -1336,6 +1337,7 @@ class npc_dark_nucleus : public CreatureScript
                 {
                     _targetAuraCheck = 1000;
                     if (Unit* victim = me->getVictim())
+                    {
                         if (me->GetDistance(victim) < 15.0f &&
                             !victim->HasAura(SPELL_SHADOW_RESONANCE_RESIST, me->GetGUID()))
                         {
@@ -1344,6 +1346,7 @@ class npc_dark_nucleus : public CreatureScript
                         }
                         else
                             MoveInLineOfSight(me->getVictim());
+                    }
                 }
                 else
                     _targetAuraCheck -= diff;
@@ -1583,7 +1586,7 @@ class spell_valanar_kinetic_bomb_absorb : public SpellScriptLoader
 
             void OnAbsorb(AuraEffect* aurEff, DamageInfo& dmgInfo, uint32& absorbAmount)
             {
-                absorbAmount = CalculatePctN(dmgInfo.GetDamage(), aurEff->GetAmount());
+                absorbAmount = CalculatePct(dmgInfo.GetDamage(), aurEff->GetAmount());
                 RoundToInterval<uint32>(absorbAmount, 0, dmgInfo.GetDamage());
                 dmgInfo.AbsorbDamage(absorbAmount);
             }

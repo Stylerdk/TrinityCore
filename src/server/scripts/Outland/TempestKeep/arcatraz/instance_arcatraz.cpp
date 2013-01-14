@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2006-2009 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -23,7 +23,8 @@ SDComment: Mainly Harbringer Skyriss event
 SDCategory: Tempest Keep, The Arcatraz
 EndScriptData */
 
-#include "ScriptPCH.h"
+#include "ScriptMgr.h"
+#include "InstanceScript.h"
 #include "arcatraz.h"
 
 #define MAX_ENCOUNTER 9
@@ -229,7 +230,7 @@ class instance_arcatraz : public InstanceMapScript
                 }
             }
 
-            uint32 GetData(uint32 type)
+            uint32 GetData(uint32 type) const
             {
                 switch (type)
                 {
@@ -243,7 +244,7 @@ class instance_arcatraz : public InstanceMapScript
                 return 0;
             }
 
-            uint64 GetData64(uint32 data)
+            uint64 GetData64(uint32 data) const
             {
                 switch (data)
                 {

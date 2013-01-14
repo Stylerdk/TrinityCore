@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2006-2009 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -23,13 +23,16 @@ SDComment: Missing some text, Vael beginning event, and spawns Nef in wrong plac
 SDCategory: Blackwing Lair
 EndScriptData */
 
-#include "ScriptPCH.h"
+#include "ScriptMgr.h"
+#include "ScriptedCreature.h"
+#include "ScriptedGossip.h"
+#include "Player.h"
 
 enum Says
 {
-    SAY_GAMESBEGIN_1        = -1469004,
-    SAY_GAMESBEGIN_2        = -1469005,
-    SAY_VAEL_INTRO          = -1469006                    //when he corrupts Vaelastrasz
+    SAY_GAMESBEGIN_1        = 0,
+    SAY_GAMESBEGIN_2        = 1,
+  //SAY_VAEL_INTRO          = 2, Not used - when he corrupts Vaelastrasz
 };
 
 #define GOSSIP_ITEM_1           "I've made no mistakes."
@@ -98,7 +101,7 @@ public:
                 break;
             case GOSSIP_ACTION_INFO_DEF+3:
                 player->CLOSE_GOSSIP_MENU();
-                DoScriptText(SAY_GAMESBEGIN_1, creature);
+                creature->AI()->Talk(SAY_GAMESBEGIN_1);
                 CAST_AI(boss_victor_nefarius::boss_victor_nefariusAI, creature->AI())->BeginEvent(player);
                 break;
         }
@@ -235,7 +238,7 @@ public:
 
         void BeginEvent(Player* target)
         {
-            DoScriptText(SAY_GAMESBEGIN_2, me);
+            Talk(SAY_GAMESBEGIN_2);
 
             //Trinity::Singleton<MapManager>::Instance().GetMap(me->GetMapId(), me)->GetPlayers().begin();
             /*
@@ -362,7 +365,7 @@ public:
                             Nefarian->setFaction(103);
                             NefarianGUID = Nefarian->GetGUID();
                         }
-                        else sLog->outError("TSCR: Blackwing Lair: Unable to spawn nefarian properly.");
+                        else sLog->outError(LOG_FILTER_TSCR, "Blackwing Lair: Unable to spawn nefarian properly.");
                     }
 
                     AddSpawnTimer = 4000;

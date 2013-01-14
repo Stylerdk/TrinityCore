@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -20,12 +20,13 @@
 #define TRANSPORTS_H
 
 #include "GameObject.h"
+#include "VehicleDefines.h"
 
 #include <map>
 #include <set>
 #include <string>
 
-class Transport : public GameObject
+class Transport : public GameObject, public TransportBase
 {
     public:
         Transport(uint32 period, uint32 script);
@@ -47,8 +48,13 @@ class Transport : public GameObject
         uint32 AddNPCPassenger(uint32 tguid, uint32 entry, float x, float y, float z, float o, uint32 anim=0);
         void UpdatePosition(MovementInfo* mi);
         void UpdateNPCPositions();
+
+        /// This method transforms supplied transport offsets into global coordinates
         void CalculatePassengerPosition(float& x, float& y, float& z, float& o);
+
+        /// This method transforms supplied global coordinates into local offsets
         void CalculatePassengerOffset(float& x, float& y, float& z, float& o);
+
         void BuildStartMovePacket(Map const* targetMap);
         void BuildStopMovePacket(Map const* targetMap);
         uint32 GetScriptId() const { return ScriptId; }

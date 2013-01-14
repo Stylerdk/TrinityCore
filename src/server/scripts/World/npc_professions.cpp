@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2006-2009 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -23,7 +23,12 @@ SDComment: Provides learn/unlearn/relearn-options for professions. Not supported
 SDCategory: NPCs
 EndScriptData */
 
-#include "ScriptPCH.h"
+#include "ScriptMgr.h"
+#include "ScriptedCreature.h"
+#include "ScriptedGossip.h"
+#include "Player.h"
+#include "SpellInfo.h"
+#include "WorldSession.h"
 
 /*
 A few notes for future developement:
@@ -242,7 +247,7 @@ bool EquippedOk(Player* player, uint32 spellId)
             if (item && item->GetTemplate()->RequiredSpell == reqSpell)
             {
                 //player has item equipped that require specialty. Not allow to unlearn, player has to unequip first
-                sLog->outDebug(LOG_FILTER_TSCR, "TSCR: player attempt to unlearn spell %u, but item %u is equipped.", reqSpell, item->GetEntry());
+                sLog->outDebug(LOG_FILTER_TSCR, "player attempt to unlearn spell %u, but item %u is equipped.", reqSpell, item->GetEntry());
                 return false;
             }
         }
@@ -780,7 +785,7 @@ enum eEngineeringTrinkets
     SPELL_TO_TOSHLEY            = 36955,
 };
 
-#define GOSSIP_ITEM_ZAP         "[PH] Unknown"
+#define GOSSIP_ITEM_ZAP         "This Dimensional Imploder sounds dangerous! How can I make one?"
 #define GOSSIP_ITEM_JHORDY      "I must build a beacon for this marvelous device!"
 #define GOSSIP_ITEM_KABLAM      "[PH] Unknown"
 
@@ -814,7 +819,7 @@ public:
             switch (creature->GetEntry())
             {
                 case NPC_ZAP:
-                    canLearn = CanLearn(player, 7249, 0, 260, S_GOBLIN, SPELL_TO_EVERLOOK, npcTextId);
+                    canLearn = CanLearn(player, 6092, 0, 260, S_GOBLIN, SPELL_TO_EVERLOOK, npcTextId);
                     if (canLearn)
                         gossipItem = GOSSIP_ITEM_ZAP;
                     break;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -65,9 +65,6 @@ enum LoginResult
     LOGIN_LOCKED_ENFORCED                        = 0x10,
 };
 
-#define POST_BC_ACCEPTED_CLIENT_BUILD            {12340, 11723, 11403, 11159, 10571, 10505, 10146, 9947, 8606, 0}
-#define PRE_BC_ACCEPTED_CLIENT_BUILD             {5875, 6005, 0}
-
 enum ExpansionFlags
 {
     POST_BC_EXP_FLAG                            = 0x2,
@@ -75,8 +72,18 @@ enum ExpansionFlags
     NO_VALID_EXP_FLAG                           = 0x0
 };
 
+struct RealmBuildInfo
+{
+    int Build;
+    int MajorVersion;
+    int MinorVersion;
+    int BugfixVersion;
+    int HotfixVersion;
+};
+
 namespace AuthHelper
 {
+    RealmBuildInfo const* GetBuildInfo(int build);
     bool IsAcceptedClientBuild(int build);
     bool IsPostBCAcceptedClientBuild(int build);
     bool IsPreBCAcceptedClientBuild(int build);

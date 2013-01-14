@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -25,6 +25,7 @@
 #include <list>
 #include <vector>
 #include "Util.h"
+#include "DBCStores.h"
 
 struct EnchStoreItem
 {
@@ -70,14 +71,10 @@ void LoadRandomEnchantmentsTable()
             ++count;
         } while (result->NextRow());
 
-        sLog->outString(">> Loaded %u Item Enchantment definitions in %u ms", count, GetMSTimeDiffToNow(oldMSTime));
-        sLog->outString();
+        sLog->outInfo(LOG_FILTER_SERVER_LOADING, ">> Loaded %u Item Enchantment definitions in %u ms", count, GetMSTimeDiffToNow(oldMSTime));
     }
     else
-    {
-        sLog->outErrorDb(">> Loaded 0 Item Enchantment definitions. DB table `item_enchantment_template` is empty.");
-        sLog->outString();
-    }
+        sLog->outError(LOG_FILTER_SQL, ">> Loaded 0 Item Enchantment definitions. DB table `item_enchantment_template` is empty.");
 }
 
 uint32 GetItemEnchantMod(int32 entry)
@@ -91,7 +88,7 @@ uint32 GetItemEnchantMod(int32 entry)
     EnchantmentStore::const_iterator tab = RandomItemEnch.find(entry);
     if (tab == RandomItemEnch.end())
     {
-        sLog->outErrorDb("Item RandomProperty / RandomSuffix id #%u used in `item_template` but it does not have records in `item_enchantment_template` table.", entry);
+        sLog->outError(LOG_FILTER_SQL, "Item RandomProperty / RandomSuffix id #%u used in `item_template` but it does not have records in `item_enchantment_template` table.", entry);
         return 0;
     }
 

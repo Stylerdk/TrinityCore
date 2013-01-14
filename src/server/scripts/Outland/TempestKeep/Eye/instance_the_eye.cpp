@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2006-2009 ScriptDev2 <https://scriptdev2.svn.sourceforge.net/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -23,7 +23,8 @@ SDComment:
 SDCategory: Tempest Keep, The Eye
 EndScriptData */
 
-#include "ScriptPCH.h"
+#include "ScriptMgr.h"
+#include "InstanceScript.h"
 #include "the_eye.h"
 
 #define MAX_ENCOUNTER 5
@@ -112,7 +113,7 @@ class instance_the_eye : public InstanceMapScript
                 }
             }
 
-            uint64 GetData64(uint32 identifier)
+            uint64 GetData64(uint32 identifier) const
             {
                 switch (identifier)
                 {
@@ -150,7 +151,7 @@ class instance_the_eye : public InstanceMapScript
                     SaveToDB();
             }
 
-            uint32 GetData(uint32 type)
+            uint32 GetData(uint32 type) const
             {
                 switch (type)
                 {
@@ -165,16 +166,12 @@ class instance_the_eye : public InstanceMapScript
             std::string GetSaveData()
             {
                 OUT_SAVE_INST_DATA;
+
                 std::ostringstream stream;
                 stream << m_auiEncounter[0] << ' ' << m_auiEncounter[1] << ' ' << m_auiEncounter[2] << ' ' << m_auiEncounter[3];
-                char* out = new char[stream.str().length() + 1];
-                strcpy(out, stream.str().c_str());
-                if (out)
-                {
-                    OUT_SAVE_INST_DATA_COMPLETE;
-                    return out;
-                }
-                return NULL;
+
+                OUT_SAVE_INST_DATA_COMPLETE;
+                return stream.str();
             }
 
             void Load(const char* in)

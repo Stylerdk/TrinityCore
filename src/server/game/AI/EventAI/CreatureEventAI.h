@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2012 TrinityCore <http://www.trinitycore.org/>
+ * Copyright (C) 2008-2013 TrinityCore <http://www.trinitycore.org/>
  * Copyright (C) 2005-2009 MaNGOS <http://getmangos.com/>
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -60,7 +60,7 @@ enum EventAI_Type
     EVENT_T_TARGET_BUFFED           = 24,                   // Param1 = SpellID, Param2 = Number of Time STacked, Param3/4 Repeat Min/Max
     EVENT_T_RESET                   = 35,                   // Is it called after combat, when the creature respawn and spawn. -- TRINITY ONLY
 
-    EVENT_T_END,
+    EVENT_T_END
 };
 
 enum EventAI_ActionType
@@ -81,7 +81,7 @@ enum EventAI_ActionType
     ACTION_T_THREAT_SINGLE_PCT          = 13,               // Threat%, Target
     ACTION_T_THREAT_ALL_PCT             = 14,               // Threat%
     ACTION_T_QUEST_EVENT                = 15,               // QuestID, Target
-    ACTION_T_CAST_EVENT                 = 16,               // QuestID, SpellId, Target - must be removed as hack?
+    ACTION_T_CAST_EVENT                 = 16,               // CreatureId, SpellId, Target - must be removed as hack?
     ACTION_T_SET_UNIT_FIELD             = 17,               // Field_Number, Value, Target
     ACTION_T_SET_UNIT_FLAG              = 18,               // Flags (may be more than one field OR'd together), Target
     ACTION_T_REMOVE_UNIT_FLAG           = 19,               // Flags (may be more than one field OR'd together), Target
@@ -119,7 +119,7 @@ enum EventAI_ActionType
     ACTION_T_ATTACK_START_PULSE         = 103,  //Distance
     ACTION_T_SUMMON_GO                  = 104,  //GameObjectID, DespawnTime in ms
 
-    ACTION_T_END                        = 105,
+    ACTION_T_END                        = 105
 };
 
 enum Target
@@ -156,7 +156,7 @@ enum CastFlags
     CAST_FORCE_CAST             = 0x04,                     //Forces cast even if creature is out of mana or out of range
     CAST_NO_MELEE_IF_OOM        = 0x08,                     //Prevents creature from entering melee if out of mana or out of range
     CAST_FORCE_TARGET_SELF      = 0x10,                     //Forces the target to cast this spell on itself
-    CAST_AURA_NOT_PRESENT       = 0x20,                     //Only casts the spell if the target does not have an aura from the spell
+    CAST_AURA_NOT_PRESENT       = 0x20                      //Only casts the spell if the target does not have an aura from the spell
 };
 
 enum EventFlags
@@ -589,7 +589,6 @@ struct CreatureEventAIHolder
 
 class CreatureEventAI : public CreatureAI
 {
-
     public:
         explicit CreatureEventAI(Creature* c);
         ~CreatureEventAI()
